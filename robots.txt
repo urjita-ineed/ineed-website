@@ -1,0 +1,9 @@
+# Allow all robots
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://ineed.com/sitemap.xml
+
+# Crawl delay (optional - prevents server overload)
+Crawl-delay: 1

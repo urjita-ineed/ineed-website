@@ -1,0 +1,74 @@
+# Enable gzip compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Set cache headers for static files
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Cache HTML for 1 week
+    ExpiresByType text/html A604800
+    
+    # Cache CSS and JS for 1 month
+    ExpiresByType text/css A2592000
+    ExpiresByType application/javascript A2592000
+    ExpiresByType text/javascript A2592000
+    
+    # Cache images for 1 month
+    ExpiresByType image/jpeg A2592000
+    ExpiresByType image/gif A2592000
+    ExpiresByType image/png A2592000
+    ExpiresByType image/webp A2592000
+    ExpiresByType image/svg+xml A2592000
+</IfModule>
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+    AddType text/html .html
+    AddType text/css .css
+    AddType application/javascript .js
+    AddEncoding gzip .gz
+</IfModule>
+
+# Rewrite engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Remove trailing slashes
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.+)/$ /$1 [L,R=301]
+    
+    # Redirect to HTTPS
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always append X-Frame-Options SAMEORIGIN
+    
+    # Prevent MIME sniffing
+    Header always append X-Content-Type-Options nosniff
+    
+    # Enable XSS protection
+    Header always append X-XSS-Protection "1; mode=block"
+    
+    # Content Security Policy (basic)
+    Header always append Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data: https:;"
+    
+    # Referrer Policy
+    Header always append Referrer-Policy strict-origin-when-cross-origin
+</IfModule>
+
+# Deny access to sensitive files
+<FilesMatch "\.(env|config|log|sql|conf|ini|htaccess)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
