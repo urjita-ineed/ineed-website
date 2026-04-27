@@ -1110,7 +1110,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: center;
-    margin-bottom: 4rem;
+    margin-bottom: 1.5rem;
     padding: 2rem 0;
 }
 
@@ -1163,14 +1163,26 @@ body {
 }
 
 .image-placeholder {
-    width: 250px;
+    width: 338px;
+    height: 563px;
     text-align: center;
+    overflow: hidden;
+    margin: 0 auto;
 }
 
 .image-placeholder svg {
     width: 100%;
-    height: auto;
+    height: 100%;
     background-color: var(--bg-light);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.image-placeholder img {
+    display: block;
+    width: 338px !important;
+    height: 563px !important;
+    object-fit: contain !important;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -1492,7 +1504,7 @@ body {
 
     .image-placeholder {
         width: 100%;
-        max-width: 250px;
+        max-width: 75px;
     }
 
     .features-grid {
